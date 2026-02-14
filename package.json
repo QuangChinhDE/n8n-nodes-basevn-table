@@ -38,7 +38,8 @@
 			"dist/credentials/TableManagementApi.credentials.js"
 		],
 		"nodes": [
-			"dist/nodes/TableManagement/TableManagement.node.js"
+			"dist/nodes/TableManagement/TableManagement.node.js",
+			"dist/nodes/TableManagement/TableManagementTrigger.node.js"
 		]
 	},
 	"devDependencies": {
