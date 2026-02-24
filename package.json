@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-basevn-table",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "n8n node for BaseVN - App Table API - Manage table records with dynamic column fields",
 	"license": "MIT",
 	"homepage": "https://github.com/QuangChinhDE/n8n-nodes-basevn-table",
