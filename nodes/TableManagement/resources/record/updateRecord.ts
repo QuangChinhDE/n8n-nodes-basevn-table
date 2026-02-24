@@ -7,12 +7,14 @@ export async function execute(
 	index: number,
 ): Promise<INodeExecutionData[]> {
 	const recordId = this.getNodeParameter('recordId', index) as number;
-	const username = this.getNodeParameter('username', index) as string;
+	const tableId = this.getNodeParameter('tableId', index) as number;
+	const username = this.getNodeParameter('_username', index) as string;
 	const additionalFields = this.getNodeParameter('additionalFields', index, {}) as IDataObject;
 	
 	const body: IDataObject = {
 		id: recordId,
-		username,
+		table_id: tableId,
+		_username: username,
 	};
 
 	// Add _name if provided

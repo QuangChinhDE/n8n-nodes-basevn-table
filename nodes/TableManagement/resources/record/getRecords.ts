@@ -11,7 +11,7 @@ export async function execute(
 	
 	const body: IDataObject = {
 		table_id: tableId,
-		page_id: additionalFields.pageId || 0,
+		page_id: additionalFields.pageId,
 		limit: additionalFields.limit || 20,
 	};
 

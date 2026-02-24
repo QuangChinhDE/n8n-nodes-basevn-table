@@ -7,7 +7,7 @@ export async function execute(
 	index: number,
 ): Promise<INodeExecutionData[]> {
 	const tableId = this.getNodeParameter('tableId', index) as number;
-	const username = this.getNodeParameter('username', index) as string;
+	const username = this.getNodeParameter('_username', index) as string;
 	const name = this.getNodeParameter('_name', index) as string;
 	
 	// Get dynamic fields collection
@@ -15,7 +15,7 @@ export async function execute(
 	
 	const body: IDataObject = {
 		table_id: tableId,
-		username,
+		_username: username,
 		_name: name,
 	};
 
