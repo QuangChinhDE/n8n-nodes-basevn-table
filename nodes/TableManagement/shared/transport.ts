@@ -14,9 +14,9 @@ export async function tableManagementApiRequest(
 	const domain = credentials.domain as string;
 	const accessToken = credentials.accessToken as string;
 
-	// Add access_token to body (required by API)
+	// Add access_token_v2 to body (required by Table API)
 	const requestBody = {
-		access_token: accessToken,
+		access_token_v2: accessToken,
 		...body,
 	};
 

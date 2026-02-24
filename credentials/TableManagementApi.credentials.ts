@@ -41,7 +41,7 @@ export class TableManagementApi implements ICredentialType {
 			url: '/table/records',
 			method: 'POST',
 			body: {
-				access_token: '={{$credentials.accessToken}}',
+				access_token_v2: '={{$credentials.accessToken}}',
 				table_id: 1,
 				page_id: 0,
 				limit: 1,
