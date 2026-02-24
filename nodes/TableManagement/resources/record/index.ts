@@ -33,6 +33,9 @@ export const description: INodeProperties[] = [
 		],
 		default: 'createRecord',
 	},
+	...createRecord.description,
+	...updateRecord.description,
+	...getRecords.description,
 ];
 
 export { createRecord, updateRecord, getRecords };

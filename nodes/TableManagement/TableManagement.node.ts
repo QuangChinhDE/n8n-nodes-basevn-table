@@ -1,11 +1,12 @@
-import type {
-	IExecuteFunctions,
-	INodeExecutionData,
-	INodeType,
-	INodeTypeDescription,
+import {
+	NodeConnectionTypes,
+	type IExecuteFunctions,
+	type INodeExecutionData,
+	type INodeType,
+	type INodeTypeDescription,
 } from 'n8n-workflow';
 
-import * as resources from './resources';
+import * as record from './resources/record';
 
 export class TableManagement implements INodeType {
 	description: INodeTypeDescription = {
@@ -20,8 +21,8 @@ export class TableManagement implements INodeType {
 		defaults: {
 			name: 'BaseVN - App Table',
 		},
-		inputs: ['main'],
-		outputs: ['main'],
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
 		credentials: [
 			{
 				name: 'tableManagementApi',
@@ -29,74 +30,48 @@ export class TableManagement implements INodeType {
 			},
 		],
 		properties: [
-			...resources.description,
 			{
-				displayName: 'Operation',
-				name: 'operation',
+				displayName: 'Resource',
+				name: 'resource',
 				type: 'options',
 				noDataExpression: true,
-				displayOptions: {
-					show: {
-						resource: ['record'],
-					},
-				},
 				options: [
 					{
-						name: 'Create Record',
-						value: 'createRecord',
-						description: 'Create a new record in a table',
-						action: 'Create a record',
-					},
-					{
-						name: 'Get Records',
-						value: 'getRecords',
-						description: 'Get records from a table',
-						action: 'Get records',
-					},
-					{
-						name: 'Update Record',
-						value: 'updateRecord',
-						description: 'Update an existing record',
-						action: 'Update a record',
+						name: 'Record',
+						value: 'record',
 					},
 				],
-				default: 'createRecord',
+				default: 'record',
 			},
-			...resources.record.description,
+			...record.description,
 		],
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
-		const resource = this.getNodeParameter('resource', 0);
-		const operation = this.getNodeParameter('operation', 0);
-
-		let responseData;
 		const returnData: INodeExecutionData[] = [];
+		const resource = this.getNodeParameter('resource', 0) as string;
 
 		for (let i = 0; i < items.length; i++) {
 			try {
+				let responseData: INodeExecutionData[] = [];
+
 				if (resource === 'record') {
+					const operation = this.getNodeParameter('operation', i) as string;
+					
 					if (operation === 'createRecord') {
-						responseData = await resources.record.createRecord.execute.call(this, i);
+						responseData = await record.createRecord.execute.call(this, i);
 					} else if (operation === 'updateRecord') {
-						responseData = await resources.record.updateRecord.execute.call(this, i);
+						responseData = await record.updateRecord.execute.call(this, i);
 					} else if (operation === 'getRecords') {
-						responseData = await resources.record.getRecords.execute.call(this, i);
+						responseData = await record.getRecords.execute.call(this, i);
 					}
 				}
 
-				if (responseData) {
-					const executionData = this.helpers.constructExecutionMetaData(
-						this.helpers.returnJsonArray(responseData),
-						{ itemData: { item: i } },
-					);
-
-					returnData.push(...executionData);
-				}
-			} catch (error: unknown) {
+				returnData.push(...responseData);
+			} catch (error) {
 				if (this.continueOnFail()) {
-					const message = error instanceof Error ? error.message : 'Unknown error';
+					const message = (error as Error).message;
 					returnData.push({ json: { error: message } });
 					continue;
 				}

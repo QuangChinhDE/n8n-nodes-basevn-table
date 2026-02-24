@@ -1,6 +1,91 @@
-import type { IExecuteFunctions, INodeExecutionData, IDataObject } from 'n8n-workflow';
+import type { IExecuteFunctions, INodeExecutionData, IDataObject, INodeProperties } from 'n8n-workflow';
 import { tableManagementApiRequest } from '../../shared/transport';
 import { processResponse, wrapData, cleanBody } from '../../shared/utils';
+
+export const description: INodeProperties[] = [
+	{
+		displayName: 'Table ID',
+		name: 'tableId',
+		type: 'number',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['record'],
+				operation: ['createRecord'],
+			},
+		},
+		default: 0,
+		description: 'ID of the table',
+	},
+	{
+		displayName: 'Username',
+		name: '_username',
+		type: 'string',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['record'],
+				operation: ['createRecord'],
+			},
+		},
+		default: '',
+		description: 'Người thực hiện (username)',
+	},
+	{
+		displayName: 'Name (First Column)',
+		name: '_name',
+		type: 'string',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['record'],
+				operation: ['createRecord'],
+			},
+		},
+		default: '',
+		description: 'Value of the first column in the table',
+	},
+	{
+		displayName: 'Dynamic Fields',
+		name: 'dynamicFields',
+		type: 'fixedCollection',
+		typeOptions: {
+			multipleValues: true,
+		},
+		placeholder: 'Add Field',
+		default: {},
+		displayOptions: {
+			show: {
+				resource: ['record'],
+				operation: ['createRecord'],
+			},
+		},
+		options: [
+			{
+				displayName: 'Field',
+				name: 'fields',
+				values: [
+					{
+						displayName: 'Field Number',
+						name: 'fieldNumber',
+						type: 'string',
+						default: '1',
+						placeholder: '1, 2, 3...',
+						description: 'Field number (e.g., 1 for f1, 2 for f2)',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+						description: 'Field value',
+					},
+				],
+			},
+		],
+		description: 'Dynamic fields f1, f2, f3... based on table column order',
+	},
+];
 
 export async function execute(
 	this: IExecuteFunctions,
