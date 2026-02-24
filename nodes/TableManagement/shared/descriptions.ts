@@ -258,7 +258,7 @@ export const getRecordsFields: INodeProperties[] = [
 				// eslint-disable-next-line n8n-nodes-base/node-param-default-wrong-for-limit
 				default: 20,
 				// eslint-disable-next-line n8n-nodes-base/node-param-description-wrong-for-limit
-				description: 'Số bản ghi tối đa trả về (default: 20, max: 500).',
+				description: 'Số bản ghi tối đa trả về (default: 20, max: 500)',
 			},
 			{
 				displayName: 'Page ID',
