@@ -100,7 +100,7 @@ export async function execute(
 	
 	const body: IDataObject = {
 		table_id: tableId,
-		_username: username,
+		username: username,
 		_name: name,
 	};
 

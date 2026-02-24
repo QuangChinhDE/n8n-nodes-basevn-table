@@ -121,7 +121,7 @@ export async function execute(
 	const body: IDataObject = {
 		id: recordId,
 		table_id: tableId,
-		_username: username,
+		username: username,
 	};
 
 	// Add _name if provided
